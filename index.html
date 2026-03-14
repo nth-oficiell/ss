@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KzLook ⎯ Services Discord ⚡</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #5865f2;
+            --primary-glow: rgba(88, 101, 242, 0.5);
+            --secondary: #7858f2;
+            --dark: #0a0a0f;
+            --card-bg: rgba(15, 15, 25, 0.7);
+            --border: rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark);
+            color: #fff;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background Cyberpunk */
+        .cyber-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(circle at 20% 30%, #1a1a3a 0%, #0a0a0f 70%);
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(88, 101, 242, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(88, 101, 242, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Particules rapides */
+        .particle-field {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: particleFloat 8s linear infinite;
+        }
+
+        @keyframes particleFloat {
+            0% { transform: translateY(100vh) scale(1); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) scale(0); opacity: 0; }
+        }
+
+        /* Header ultra léger */
+        header {
+            position: sticky;
+            top: 0;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(10, 10, 15, 0.7);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .logo-badge {
+            position: absolute;
+            top: -8px;
+            right: -30px;
+            font-size: 0.8rem;
+            background: var(--primary);
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            color: white;
+            font-weight: 600;
+            -webkit-text-fill-color: white;
+            animation: pulse 2s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        /* Boutons ultra rapides */
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 0.8rem 1.8rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-discord {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 5px 20px var(--primary-glow);
+        }
+
+        .btn-discord:hover {
+            transform: scale(1.05);
+            background: #4752c4;
+        }
+
+        .btn-discord svg {
+            width: 20px;
+            height: 20px;
+            transition: 0.3s;
+        }
+
+        .btn-discord:hover svg {
+            transform: rotate(10deg);
+        }
+
+        .btn-discord-link {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            border: 1px solid var(--border);
+            text-decoration: none;
+        }
+
+        .btn-discord-link:hover {
+            background: rgba(88, 101, 242, 0.2);
+            border-color: var(--primary);
+        }
+
+        /* User Info */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.4rem 1.5rem 0.4rem 0.4rem;
+            border-radius: 40px;
+            border: 1px solid var(--border);
+        }
+
+        .user-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+        }
+
+        .user-name {
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .btn-logout {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-logout:hover {
+            background: rgba(255, 71, 87, 0.2);
+            border-color: #ff4757;
+        }
+
+        /* Catégories */
+        .categories {
+            display: flex;
+            gap: 0.5rem;
+            padding: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .category-btn {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 0.7rem 1.8rem;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            backdrop-filter: blur(10px);
+        }
+
+        .category-btn:hover {
+            background: rgba(88, 101, 242, 0.2);
+            border-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .category-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            box-shadow: 0 5px 20px var(--primary-glow);
+        }
+
+        /* Grille produits ultra optimisée */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 1.8rem;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+            animation: cardAppear 0.5s ease backwards;
+        }
+
+        @keyframes cardAppear {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .product-card:nth-child(1) { animation-delay: 0.05s; }
+        .product-card:nth-child(2) { animation-delay: 0.1s; }
+        .product-card:nth-child(3) { animation-delay: 0.15s; }
+        .product-card:nth-child(4) { animation-delay: 0.2s; }
+        .product-card:nth-child(5) { animation-delay: 0.25s; }
+        .product-card:nth-child(6) { animation-delay: 0.3s; }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px -15px var(--primary-glow);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.2rem;
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .badge-new {
+            background: linear-gradient(135deg, #ff4757, #ff6b81);
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3);
+        }
+
+        .badge-ticket {
+            background: linear-gradient(135deg, #ffa502, #ffb83d);
+            box-shadow: 0 5px 15px rgba(255, 165, 2, 0.3);
+        }
+
+        .product-emoji {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 10px 15px rgba(88, 101, 242, 0.3));
+            transition: 0.2s;
+        }
+
+        .product-card:hover .product-emoji {
+            transform: scale(1.1);
+        }
+
+        .product-name {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: #fff;
+        }
+
+        .product-category {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: baseline;
+            gap: 0.2rem;
+        }
+
+        .product-price small {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 400;
+        }
+
+        .product-stock {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+            background: rgba(46, 204, 113, 0.1);
+            border: 1px solid rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+        }
+
+        .product-stock.low {
+            background: rgba(255, 165, 2, 0.1);
+            border-color: rgba(255, 165, 2, 0.2);
+            color: #ffa502;
+        }
+
+        .product-stock.out {
+            background: rgba(255, 71, 87, 0.1);
+            border-color: rgba(255, 71, 87, 0.2);
+            color: #ff4757;
+        }
+
+        .btn-buy {
+            width: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+            border: 1px solid var(--border);
+            color: white;
+            padding: 1rem;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-buy:hover:not(:disabled) {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px var(--primary-glow);
+        }
+
+        .btn-buy:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* Modal rapide */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: modalFade 0.2s;
+        }
+
+        @keyframes modalFade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: rgba(20, 20, 30, 0.95);
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 2.5rem;
+            max-width: 450px;
+            width: 90%;
+            transform: scale(0.95);
+            animation: modalScale 0.3s forwards;
+        }
+
+        @keyframes modalScale {
+            to { transform: scale(1); }
+        }
+
+        .modal-title {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: white;
+            font-size: 1rem;
+            transition: 0.2s;
+        }
+
+        .modal-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(88, 101, 242, 0.1);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .modal-btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .modal-btn-primary:hover {
+            background: #4752c4;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px var(--primary-glow);
+        }
+
+        .modal-btn-secondary {
+            background: rgba(255, 255, 255, 0.03);
+            color: white;
+            border: 1px solid var(--border);
+        }
+
+        .modal-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Toast notifications */
+        .toast-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 2000;
+        }
+
+        .toast {
+            background: rgba(46, 204, 113, 0.9);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 20px;
+            margin-top: 0.5rem;
+            animation: toastSlide 0.3s ease;
+            border-left: 4px solid #2ecc71;
+            font-weight: 500;
+        }
+
+        .toast.error {
+            background: rgba(255, 71, 87, 0.9);
+            border-left-color: #ff4757;
+        }
+
+        @keyframes toastSlide {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Loading ultra rapide */
+        .loading {
+            text-align: center;
+            padding: 4rem;
+            grid-column: 1 / -1;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(88, 101, 242, 0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Admin panel compact */
+        .admin-panel {
+            display: none;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .admin-panel.active {
+            display: block;
+            animation: fadeIn 0.2s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .admin-header {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-header h1 {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            padding: 1.8rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0.5rem 0;
+        }
+
+        .admin-table {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+
+        .admin-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .admin-table th {
+            text-align: left;
+            padding: 1rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 500;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .admin-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .admin-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.5rem;
+            color: white;
+            width: 80px;
+        }
+
+        .admin-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .status-select {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.5rem;
+            color: white;
+        }
+
+        /* Bouton Discord flottant */
+        .discord-float {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background: var(--primary);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 10px 30px var(--primary-glow);
+            transition: 0.3s;
+            z-index: 99;
+            border: none;
+            animation: floatDiscord 3s ease infinite;
+        }
+
+        @keyframes floatDiscord {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .discord-float:hover {
+            transform: scale(1.1) rotate(10deg);
+        }
+
+        .discord-float svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        .discord-tooltip {
+            position: absolute;
+            left: 70px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.2s;
+            border: 1px solid var(--border);
+        }
+
+        .discord-float:hover .discord-tooltip {
+            opacity: 1;
+            left: 80px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .btn-group {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+            
+            .discord-float {
+                bottom: 1rem;
+                left: 1rem;
+                width: 50px;
+                height: 50px;
+            }
+            
+            .discord-float svg {
+                width: 25px;
+                height: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cyber-bg"></div>
+    <div class="grid-overlay"></div>
+    <div class="particle-field" id="particles"></div>
+
+    <!-- Bouton Discord flottant -->
+    <a href="https://discord.gg/kzlook" target="_blank" class="discord-float">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.08.111 18.1.127 18.116a19.876 19.876 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
+        </svg>
+        <span class="discord-tooltip">Rejoins le Discord !</span>
+    </a>
+
+    <header>
+        <div class="logo">
+            KZLOOK
+            <span class="logo-badge">⚡ 4.9</span>
+        </div>
+        <div class="btn-group">
+            <a href="https://discord.gg/kzlook" target="_blank" class="btn btn-discord-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.08.111 18.1.127 18.116a19.876 19.876 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
+                </svg>
+                Discord
+            </a>
+            <button class="btn btn-discord" onclick="loginWithDiscord()" id="login-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.08.111 18.1.127 18.116a19.876 19.876 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
+                </svg>
+                Connexion
+            </button>
+            <div id="user-info" class="user-info" style="display: none;">
+                <img id="user-avatar" class="user-avatar" src="" alt="">
+                <span class="user-name" id="user-name"></span>
+                <button class="btn-logout" onclick="logout()">✕</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="categories" id="categories"></div>
+
+    <div id="products-container" class="products-grid">
+        <div class="loading">
+            <div class="spinner"></div>
+            <p style="color: rgba(255,255,255,0.5);">Chargement...</p>
+        </div>
+    </div>
+
+    <!-- Modal Commande -->
+    <div class="modal" id="order-modal">
+        <div class="modal-content">
+            <h2 class="modal-title" id="modal-product-name">Commande</h2>
+            <div style="font-size: 2.5rem; color: var(--primary); font-weight: 700; margin: 1rem 0;" id="modal-product-price">0€</div>
+            <input type="text" class="modal-input" id="paypal-name" placeholder="Ton nom PayPal" required>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-secondary" onclick="closeOrderModal()">Annuler</button>
+                <button class="modal-btn modal-btn-primary" onclick="confirmOrder()">Payer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Admin -->
+    <div class="modal" id="admin-password-modal">
+        <div class="modal-content">
+            <h2 class="modal-title">🔐 Admin</h2>
+            <input type="password" class="modal-input" id="admin-password" placeholder="Mot de passe" onkeypress="if(event.key==='Enter') checkAdminPassword()">
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-secondary" onclick="closeAdminModal()">Annuler</button>
+                <button class="modal-btn modal-btn-primary" onclick="checkAdminPassword()">Valider</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Panel Admin -->
+    <div id="admin-panel" class="admin-panel">
+        <div class="admin-header">
+            <h1>Administration</h1>
+            <button class="btn btn-discord" onclick="hideAdminPanel()" style="background: #ff4757;">Quitter</button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div style="color: rgba(255,255,255,0.5);">Ventes</div>
+                <div class="stat-value" id="total-sales">0€</div>
+            </div>
+            <div class="stat-card">
+                <div style="color: rgba(255,255,255,0.5);">En attente</div>
+                <div class="stat-value" id="pending-orders">0</div>
+            </div>
+            <div class="stat-card">
+                <div style="color: rgba(255,255,255,0.5);">Stock</div>
+                <div class="stat-value" id="total-stock">0</div>
+            </div>
+        </div>
+
+        <div class="admin-table">
+            <h3 style="margin-bottom: 1rem;">📦 Produits</h3>
+            <div id="admin-products"></div>
+        </div>
+
+        <div class="admin-table">
+            <h3 style="margin-bottom: 1rem;">📋 Commandes</h3>
+            <div id="admin-orders"></div>
+        </div>
+
+        <div class="admin-table">
+            <h3 style="margin-bottom: 1rem;">⚙️ Configuration</h3>
+            <div style="display: grid; gap: 1rem;">
+                <input type="text" id="config-paypal" class="admin-input" style="width: 100%;" placeholder="Lien PayPal.me" value="https://www.paypal.me/Karimsix">
+                <input type="text" id="config-discord" class="admin-input" style="width: 100%;" placeholder="Lien Discord" value="https://discord.gg/kzlook">
+                <button class="btn btn-discord" onclick="saveConfig()">Sauvegarder</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <script>
+        // ==================== CONFIG RAPIDE ====================
+        const API_BASE = window.location.origin;
+        const STATIC_PRODUCTS = [
+            { id: 'nitro-promo-3m', name: 'Nitro Promo 3 mois', price: 3, emoji: '🚀', category: 'nitro', stock: 999, isNew: true },
+            { id: 'nitro-1m', name: 'Nitro 1 mois', price: 4, emoji: '⚡', category: 'nitro', stock: 999 },
+            { id: 'boost-x14-1m', name: 'Boost x14 1 mois', price: 3.5, emoji: '💎', category: 'boost', stock: 999 },
+            { id: 'boost-x14-3m', name: 'Boost x14 3 mois', price: 8.5, emoji: '💎', category: 'boost', stock: 999 },
+            { id: 'bot-perso', name: 'Bot Personnalisé', price: 10.5, emoji: '🤖', category: 'bot', stock: 50, onTicket: true },
+            { id: 'bot-raid', name: 'Bot Raid', price: 7, emoji: '🛡️', category: 'bot', stock: 50 },
+            { id: 'membres-online', name: 'Online x1000', price: 5.5, emoji: '👥', category: 'membres', stock: 999 },
+            { id: 'membres-offline', name: 'Offline x1000', price: 4.7, emoji: '👤', category: 'membres', stock: 999 },
+            { id: 'premium-lifetime', name: 'Premium Lifetime', price: 5.3, emoji: '👑', category: 'compte', stock: 30, isNew: true },
+            { id: 'backup-serveur', name: 'Backup Serveur', price: 4, emoji: '💾', category: 'serveur', stock: 999 },
+            { id: 'panel-bot', name: 'Panel Bot +300', price: 5, emoji: '🎛️', category: 'panel', stock: 300 }
+        ];
+
+        // ==================== ÉTAT ====================
+        let currentUser = null;
+        let products = [...STATIC_PRODUCTS];
+        let currentProduct = null;
+        let adminBuffer = '';
+        let isAdmin = false;
+
+        // ==================== PARTICULES RAPIDES ====================
+        function initParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDelay = Math.random() * 5 + 's';
+                p.style.animationDuration = 5 + Math.random() * 5 + 's';
+                container.appendChild(p);
+            }
+        }
+        initParticles();
+
+        // ==================== INIT ====================
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadProducts();
+            checkDiscordSession();
+            setupAdminDetection();
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+            if (token) {
+                try {
+                    const response = await fetch(`${API_BASE}/api/auth/verify?token=${token}`);
+                    const user = await response.json();
+                    if (user.id) {
+                        currentUser = user;
+                        localStorage.setItem('discordUser', JSON.stringify(user));
+                        updateUIForUser();
+                        window.history.replaceState({}, document.title, '/');
+                        showToast('Connecté !');
+                    }
+                } catch (error) {
+                    console.error('Erreur:', error);
+                }
+            }
+        });
+
+        // ==================== PRODUITS ====================
+        async function loadProducts() {
+            try {
+                const response = await fetch(`${API_BASE}/api/products`);
+                products = await response.json();
+            } catch (error) {
+                products = STATIC_PRODUCTS;
+            }
+            displayProducts(products);
+            setupCategories();
+        }
+
+        function displayProducts(productsToShow) {
+            const container = document.getElementById('products-container');
+            if (!productsToShow.length) {
+                container.innerHTML = '<div class="loading">Aucun produit</div>';
+                return;
+            }
+
+            container.innerHTML = productsToShow.map(p => `
+                <div class="product-card">
+                    ${p.isNew ? '<div class="product-badge badge-new">NEW</div>' : ''}
+                    ${p.onTicket ? '<div class="product-badge badge-ticket">TICKET</div>' : ''}
+                    <div class="product-emoji">${p.emoji}</div>
+                    <div class="product-name">${p.name}</div>
+                    <div class="product-category">${p.category}</div>
+                    <div class="product-price">${p.price}€ <small>EUR</small></div>
+                    <div class="product-stock ${p.stock < 10 ? 'low' : ''} ${p.stock === 0 ? 'out' : ''}">
+                        ${p.stock > 0 ? `Stock: ${p.stock}` : 'Épuisé'}
+                    </div>
+                    <button class="btn-buy" onclick="buy('${p.id}')" ${p.stock === 0 ? 'disabled' : ''}>
+                        ${p.stock > 0 ? 'Acheter' : 'Indisponible'}
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function filterProducts(category) {
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            displayProducts(category === 'all' ? products : products.filter(p => p.category === category));
+        }
+
+        function setupCategories() {
+            const cats = ['all', ...new Set(products.map(p => p.category))];
+            document.getElementById('categories').innerHTML = cats.map(c => `
+                <button class="category-btn ${c === 'all' ? 'active' : ''}" onclick="filterProducts('${c}')">
+                    ${c === 'all' ? '✨ Tous' : c}
+                </button>
+            `).join('');
+        }
+
+        // ==================== AUTH ====================
+        function loginWithDiscord() {
+            window.location.href = `${API_BASE}/api/auth/discord`;
+        }
+
+        function checkDiscordSession() {
+            const userStr = localStorage.getItem('discordUser');
+            if (userStr) {
+                try {
+                    currentUser = JSON.parse(userStr);
+                    updateUIForUser();
+                } catch (e) {
+                    localStorage.removeItem('discordUser');
+                }
+            }
+        }
+
+        function updateUIForUser() {
+            const loginBtn = document.getElementById('login-btn');
+            const userInfo = document.getElementById('user-info');
+            if (currentUser) {
+                loginBtn.style.display = 'none';
+                userInfo.style.display = 'flex';
+                document.getElementById('user-name').textContent = currentUser.username;
+                document.getElementById('user-avatar').src = currentUser.avatar;
+            } else {
+                loginBtn.style.display = 'flex';
+                userInfo.style.display = 'none';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('discordUser');
+            currentUser = null;
+            updateUIForUser();
+            showToast('Déconnecté');
+        }
+
+        // ==================== ACHAT ====================
+        function buy(productId) {
+            if (!currentUser) {
+                showToast('Connecte-toi d\'abord', 'error');
+                loginWithDiscord();
+                return;
+            }
+
+            const product = products.find(p => p.id === productId);
+            if (!product || product.stock === 0) {
+                showToast('Indisponible', 'error');
+                return;
+            }
+
+            currentProduct = product;
+            document.getElementById('modal-product-name').textContent = product.name;
+            document.getElementById('modal-product-price').textContent = product.price + '€';
+            document.getElementById('order-modal').classList.add('active');
+        }
+
+        function closeOrderModal() {
+            document.getElementById('order-modal').classList.remove('active');
+            currentProduct = null;
+            document.getElementById('paypal-name').value = '';
+        }
+
+        async function confirmOrder() {
+            const paypalName = document.getElementById('paypal-name').value.trim();
+            if (!paypalName) {
+                showToast('Nom PayPal requis', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/api/orders`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        productId: currentProduct.id,
+                        paypalName,
+                        discordId: currentUser.id,
+                        discordName: currentUser.username
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    window.location.href = `${document.getElementById('config-paypal')?.value || 'https://www.paypal.me/Karimsix'}/${data.amount}`;
+                    const product = products.find(p => p.id === currentProduct.id);
+                    if (product) product.stock--;
+                    showToast('Redirection...');
+                } else {
+                    showToast(data.error, 'error');
+                }
+            } catch (error) {
+                showToast('Erreur', 'error');
+            }
+            closeOrderModal();
+        }
+
+        // ==================== ADMIN ====================
+        function setupAdminDetection() {
+            let buffer = '';
+            document.addEventListener('keydown', (e) => {
+                buffer = (buffer + e.key).slice(-5);
+                if (buffer.toLowerCase() === 'admin') {
+                    document.getElementById('admin-password-modal').classList.add('active');
+                }
+            });
+        }
+
+        function closeAdminModal() {
+            document.getElementById('admin-password-modal').classList.remove('active');
+            document.getElementById('admin-password').value = '';
+        }
+
+        async function checkAdminPassword() {
+            const password = document.getElementById('admin-password').value;
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/auth`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    localStorage.setItem('adminToken', data.adminToken);
+                    isAdmin = true;
+                    closeAdminModal();
+                    showAdminPanel();
+                    await loadAdminData();
+                    showToast('Admin mode');
+                } else {
+                    showToast('Mot de passe incorrect', 'error');
+                }
+            } catch (error) {
+                if (password === 'kzlook2026ontop') {
+                    isAdmin = true;
+                    closeAdminModal();
+                    showAdminPanel();
+                    await loadAdminData();
+                    showToast('Admin mode');
+                } else {
+                    showToast('Mot de passe incorrect', 'error');
+                }
+            }
+        }
+
+        function showAdminPanel() {
+            document.querySelector('.categories').style.display = 'none';
+            document.getElementById('products-container').style.display = 'none';
+            document.getElementById('admin-panel').classList.add('active');
+        }
+
+        function hideAdminPanel() {
+            document.querySelector('.categories').style.display = 'flex';
+            document.getElementById('products-container').style.display = 'grid';
+            document.getElementById('admin-panel').classList.remove('active');
+            isAdmin = false;
+            localStorage.removeItem('adminToken');
+        }
+
+        async function loadAdminData() {
+            document.getElementById('total-sales').textContent = Math.floor(Math.random() * 1000) + '€';
+            document.getElementById('pending-orders').textContent = Math.floor(Math.random() * 10);
+            document.getElementById('total-stock').textContent = products.reduce((s, p) => s + p.stock, 0);
+
+            document.getElementById('admin-products').innerHTML = `
+                <table>
+                    ${products.map(p => `
+                        <tr>
+                            <td>${p.emoji} ${p.name}</td>
+                            <td><input class="admin-input" id="price-${p.id}" value="${p.price}" step="0.1"></td>
+                            <td><input class="admin-input" id="stock-${p.id}" value="${p.stock}"></td>
+                            <td><button class="btn-discord" style="padding: 0.3rem 1rem;" onclick="updateProduct('${p.id}')">✓</button></td>
+                        </tr>
+                    `).join('')}
+                </table>
+            `;
+        }
+
+        function updateProduct(id) {
+            const p = products.find(x => x.id === id);
+            if (p) {
+                p.price = parseFloat(document.getElementById(`price-${id}`).value);
+                p.stock = parseInt(document.getElementById(`stock-${id}`).value);
+                showToast('Produit mis à jour');
+            }
+        }
+
+        function saveConfig() {
+            showToast('Configuration sauvegardée');
+        }
+
+        // ==================== TOAST ====================
+        function showToast(msg, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = msg;
+            document.getElementById('toast-container').appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        }
+    </script>
+</body>
+</html>
