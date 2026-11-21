@@ -1,0 +1,41 @@
+plugins {
+    id 'net.fabricmc.fabric-loom' version '1.19.4'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = 'auto-totem-26.1.2'
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "minecraft_dep", project.minecraft_dep
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version, "minecraft_dep": project.minecraft_dep
+    }
+}
+
+sourceSets.main.java.srcDirs = ['../../code-moj2', '../../hud-moj']
+sourceSets.main.resources.srcDirs = ['../../res-common', 'resources']
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 25
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+    withSourcesJar()
+}
+
+jar {
+    from file('../../LICENSE')
+}
