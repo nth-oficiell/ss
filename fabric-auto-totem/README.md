@@ -5,8 +5,9 @@ Mod client pour Minecraft **1.21.1** : dès que le totem de ta main secondaire p
 ## Fonctionnalités
 
 - 🛡️ Remplacement automatique du totem en main secondaire (hotbar prioritaire)
+- ⏱️ **Délai configurable** (0-100 ticks) : touches **[** et **]** en jeu, ou `config/autototem.json`
 - ⌨️ Touche **O** pour activer/désactiver
-- 🎯 Indicateur **AutoTotem** sur le HUD (vert = actif, gris = inactif)
+- 🎯 Indicateur **AutoTotem [Xt]** sur le HUD (vert = actif, gris = inactif)
 - 🇫🇷🇬🇧 Traductions FR / EN
 
 ## Build
