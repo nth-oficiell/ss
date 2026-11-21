@@ -1,6 +1,4 @@
 {
-  "key.autototem.toggle": "Activer/Désactiver Auto Totem",
-  "key.autototem.delay_up": "Augmenter le délai",
-  "key.autototem.delay_down": "Réduire le délai",
+  "key.autototem.open": "Ouvrir le menu Auto Totem",
   "category.autototem": "Auto Totem"
 }

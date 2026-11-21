@@ -12,37 +12,22 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.screen.slot.SlotActionType;
-import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
 public class AutoTotemClient implements ClientModInitializer {
 
     private static AutoTotemConfig config;
-    private static KeyBinding toggleKey;
-    private static KeyBinding delayUpKey;
-    private static KeyBinding delayDownKey;
+    private static KeyBinding menuKey;
     private static int ticksSincePop = 0;
 
     @Override
     public void onInitializeClient() {
         config = AutoTotemConfig.load();
 
-        toggleKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.autototem.toggle",
+        menuKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.autototem.open",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_O,
-                "category.autototem"
-        ));
-        delayUpKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.autototem.delay_up",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_RIGHT_BRACKET,
-                "category.autototem"
-        ));
-        delayDownKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.autototem.delay_down",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_LEFT_BRACKET,
                 "category.autototem"
         ));
 
@@ -52,20 +37,10 @@ public class AutoTotemClient implements ClientModInitializer {
     }
 
     private static void onTick(MinecraftClient client) {
-        while (toggleKey.wasPressed()) {
-            config.enabled = !config.enabled;
-            config.save();
-            feedback(client, "AutoTotem: " + (config.enabled ? "ON" : "OFF"));
-        }
-        while (delayDownKey.wasPressed()) {
-            config.delayTicks = Math.max(0, config.delayTicks - 1);
-            config.save();
-            feedback(client, "Delay: " + config.delayTicks + "t");
-        }
-        while (delayUpKey.wasPressed()) {
-            config.delayTicks = Math.min(100, config.delayTicks + 1);
-            config.save();
-            feedback(client, "Delay: " + config.delayTicks + "t");
+        while (menuKey.wasPressed()) {
+            if (client.currentScreen == null) {
+                client.setScreen(new AutoTotemScreen(null));
+            }
         }
 
         if (!config.enabled || client.player == null || client.interactionManager == null || client.world == null) {
@@ -73,6 +48,19 @@ public class AutoTotemClient implements ClientModInitializer {
             return;
         }
         refillOffhand(client);
+    }
+
+    public static AutoTotemConfig getConfig() {
+        return config;
+    }
+
+    public static String getOpenKeyName() {
+        return menuKey.getBoundKeyLocalizedText().getString();
+    }
+
+    public static void setOpenKey(int keyCode) {
+        menuKey.setBoundKey(InputUtil.Type.KEYSYM.createFromCode(keyCode));
+        KeyBinding.updateKeysByCode();
     }
 
     private static void refillOffhand(MinecraftClient client) {
@@ -127,12 +115,6 @@ public class AutoTotemClient implements ClientModInitializer {
             return 36 + inventorySlot;
         }
         return inventorySlot;
-    }
-
-    private static void feedback(MinecraftClient client, String message) {
-        if (client.player != null) {
-            client.player.sendMessage(Text.literal(message), true);
-        }
     }
 
     private static void renderHud(DrawContext context, RenderTickCounter tickCounter) {

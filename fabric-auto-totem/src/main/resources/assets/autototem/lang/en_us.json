@@ -1,6 +1,4 @@
 {
-  "key.autototem.toggle": "Toggle Auto Totem",
-  "key.autototem.delay_up": "Increase delay",
-  "key.autototem.delay_down": "Decrease delay",
+  "key.autototem.open": "Open Auto Totem Menu",
   "category.autototem": "Auto Totem"
 }
