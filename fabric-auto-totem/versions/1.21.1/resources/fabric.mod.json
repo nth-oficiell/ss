@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "autototem",
+  "version": "${version}",
+  "name": "Auto Totem",
+  "description": "Replaces the totem in your offhand automatically the moment it pops. In-game menu: toggle, delay, keybind.",
+  "authors": ["NTH"],
+  "license": "MIT",
+  "icon": "assets/autototem/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["com.nth.autototem.AutoTotemHud"]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "${minecraft_dep}",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
